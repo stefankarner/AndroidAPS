@@ -30,10 +30,8 @@ class XdripPlugin @Inject constructor(
     aapsLogger, resourceHelper, injector
 ), BgSourceInterface {
 
-    private var advancedFiltering = false
-
     override fun advancedFilteringSupported(): Boolean {
-        return advancedFiltering
+        return true
     }
 
     override fun handleNewData(intent: Intent) {
@@ -45,12 +43,6 @@ class XdripPlugin @Inject constructor(
         bgReading.direction = bundle.getString(Intents.EXTRA_BG_SLOPE_NAME)
         bgReading.date = bundle.getLong(Intents.EXTRA_TIMESTAMP)
         bgReading.raw = bundle.getDouble(Intents.EXTRA_RAW)
-        val source = bundle.getString(Intents.XDRIP_DATA_SOURCE_DESCRIPTION, "no Source specified")
-        setSource(source)
         MainApp.getDbHelper().createIfNotExists(bgReading, "XDRIP")
-    }
-
-    private fun setSource(source: String) {
-        advancedFiltering = source.contains("G5 Native") || source.contains("G6 Native")
     }
 }
