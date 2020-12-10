@@ -188,11 +188,6 @@ class AutomationPlugin @Inject constructor(
             executionLog.add(resourceHelper.gs(R.string.smscommunicator_loopisdisabled))
             return
         }
-        val enabled = constraintChecker.isAutomationEnabled()
-        if (!enabled.value()) {
-            executionLog.add(enabled.getMostLimitedReasons(aapsLogger))
-            return
-        }
 
         aapsLogger.debug(LTag.AUTOMATION, "processActions")
         for (event in automationEvents) {

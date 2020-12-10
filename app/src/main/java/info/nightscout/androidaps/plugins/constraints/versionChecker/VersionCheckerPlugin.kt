@@ -31,9 +31,8 @@ class VersionCheckerPlugin @Inject constructor(
 ) : PluginBase(PluginDescription()
     .mainType(PluginType.CONSTRAINTS)
     .neverVisible(true)
-    .alwaysEnabled(false)
-    .enableByDefault(false)
-    .showInList(true)
+    .alwaysEnabled(true)
+    .showInList(false)
     .pluginName(R.string.versionChecker),
     aapsLogger, resourceHelper, injector
 ), ConstraintsInterface {
