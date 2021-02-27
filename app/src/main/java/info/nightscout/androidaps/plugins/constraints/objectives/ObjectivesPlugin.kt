@@ -1,6 +1,6 @@
 package info.nightscout.androidaps.plugins.constraints.objectives
 
-import android.app.Activity
+import androidx.fragment.app.FragmentActivity
 import com.google.common.base.Charsets
 import com.google.common.hash.Hashing
 import dagger.android.HasAndroidInjector
@@ -33,6 +33,7 @@ class ObjectivesPlugin @Inject constructor(
     .neverVisible(true)
     .alwaysEnabled(config.APS)
     .showInList(config.APS)
+    .pluginIcon(R.drawable.ic_graduation)
     .pluginName(R.string.objectives)
     .shortName(R.string.objectives_shortname)
     .description(R.string.description_objectives),
@@ -117,7 +118,7 @@ class ObjectivesPlugin @Inject constructor(
         sp.putBoolean(R.string.key_objectiveusescale, false)
     }
 
-    fun completeObjectives(activity: Activity, request: String) {
+    fun completeObjectives(activity: FragmentActivity, request: String) {
         val requestCode = sp.getString(R.string.key_objectives_request_code, "")
         var url = sp.getString(R.string.key_nsclientinternal_url, "").toLowerCase(Locale.getDefault())
         if (!url.endsWith("/")) url = "$url/"
@@ -146,7 +147,7 @@ class ObjectivesPlugin @Inject constructor(
         }
     }
 
-    fun allPriorAccomplished(position: Int) : Boolean {
+    fun allPriorAccomplished(position: Int): Boolean {
         var accomplished = true
         for (i in 0 until position) {
             accomplished = accomplished && objectives[i].isAccomplished
@@ -160,6 +161,12 @@ class ObjectivesPlugin @Inject constructor(
     override fun isLoopInvocationAllowed(value: Constraint<Boolean>): Constraint<Boolean> {
         if (!objectives[FIRST_OBJECTIVE].isStarted)
             value.set(aapsLogger, false, String.format(resourceHelper.gs(R.string.objectivenotstarted), FIRST_OBJECTIVE + 1), this)
+        return value
+    }
+
+    fun isLgsAllowed(value: Constraint<Boolean>): Constraint<Boolean> {
+        if (!objectives[MAXBASAL_OBJECTIVE].isStarted)
+            value.set(aapsLogger, false, String.format(resourceHelper.gs(R.string.objectivenotstarted), MAXBASAL_OBJECTIVE + 1), this)
         return value
     }
 
