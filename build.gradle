@@ -23,7 +23,7 @@ buildscript {
         work_version = '2.4.0'
 
         junit_version = '4.13.2'
-        powermockVersion = "1.7.3"
+        powermockVersion = "2.0.9"
         dexmakerVersion = "1.2"
         retrofit2Version = '2.9.0'
         okhttp3Version = '4.9.0'
